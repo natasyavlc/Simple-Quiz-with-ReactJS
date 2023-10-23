@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { Progress } from "@material-tailwind/react";
 // DUMMY DATA
 import { question } from '../DummyData/question'
 // STYLE
@@ -8,9 +9,22 @@ import './Survey.css'
 function Survey() {
     const navigate = useNavigate();
     // STATE
-    const [number, setNumber] = useState(1);
-    const [completed, setCompleted] = useState(0);
+    // const [number, setNumber] = useState(() => {
+    //     const getAnswer = window.localStorage.getItem('answeredQuestion');
+    //     const parsing = JSON.parse(getAnswer)
+    //     return getAnswer !== null
+    //         ? parsing.length + 1
+    //         : 1;
+    // });
+    const [number, setNumber] = useState(1)
+    const [completed, setCompleted] = useState(1);
     const [width, setWidth] = useState(0);
+    // const [selectedOption, setSelectedOption] = useState(() => {
+    //     const getTempAnswer = window.localStorage.getItem('tempAnswer');
+    //     return getTempAnswer !== null
+    //         ? JSON.parse(getTempAnswer)
+    //         : '';
+    // });
     const [selectedOption, setSelectedOption] = useState('');
     const [answeredQuestion, setAnsweredQuestion] = useState(() => {
         const getAnswer = window.localStorage.getItem('answeredQuestion');
@@ -19,11 +33,18 @@ function Survey() {
             : [];
     });
 
+    useEffect(() => {
+        console.log(window.localStorage.getItem('answeredQuestion'), 'cek answered');
+        console.log();
+    }, [])
+
     const handleOptionChange = (event) => {
         if (typeof answeredQuestion[number - 1] == "undefined") {
             setSelectedOption(event.target.value);
+            // setTempAnswer(event.target.value)
         } else {
             setSelectedOption(event.target.value)
+            // setTempAnswer(event.target.value)
             if ((number - 1) !== -1) {
                 const newestAnswer = answeredQuestion[number - 1] = event.target.value;
                 setAnsweredQuestion([...answeredQuestion], newestAnswer)
@@ -60,17 +81,34 @@ function Survey() {
         const progress = question.map((data, index) => {
             if ((index + 1) == number) {
                 return (
-                    <div
-                        key={index}
+                    <Progress
+                        value={100 / 15 * (completed)}
+                        color='purple'
+                        variant="gradient"
+                        className="activeBar"
                         style={{
-                            width: `${completed / (width / 10)}%`,
+                            width: width / question.length,
                             height: 10,
-                            backgroundColor: '#7639bb',
+                            backgroundColor: 'white',
                             marginBottom: 32,
                             borderRadius: 10,
-                            marginRight: 8,
-                            transition: 'width 1s ease-in-out',
-                            animationName: ''
+                            marginRight: 8
+                        }}
+                    />
+                )
+            } else if ((index + 1) < number) {
+                return (
+                    <div
+                        key={index}
+                        className="nonActiveBar"
+                        style={{
+                            width: width / question.length,
+                            height: 10,
+                            backgroundColor: '#7639bb',
+                            opacity: 0.3,
+                            marginBottom: 32,
+                            borderRadius: 10,
+                            marginRight: 12
                         }}
                     />
                 )
@@ -81,48 +119,61 @@ function Survey() {
                         style={{
                             width: width / question.length,
                             height: 10,
-                            backgroundColor: 'gray',
+                            backgroundColor: 'grey',
                             opacity: 0.3,
                             marginBottom: 32,
                             borderRadius: 10,
-                            marginRight: 8,
+                            marginRight: 12
                         }}
                     />
                 )
             }
         });
-        return <div
-            style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                width: width,
-            }}>
-            {progress}
-        </div>
+        return (
+            <div
+                className="timerWrapper"
+                style={{ width: width - (64 * 2) }}
+            >
+                {progress}
+            </div>
+        )
     }
 
     useEffect(() => {
         const interval = setInterval(() => {
             if (number < question.length) {
                 setNumber(number + 1)
+                setCompleted(1)
             } else {
+                navigate('/endsurvey')
                 console.log('can not next', number);
             }
         }, 15000);
         return () => clearInterval(interval);
     }, [number]);
 
-    // useEffect(() => {
-    //     const progress = setInterval(() => {
-    //         if (completed < 15) {
-    //             setCompleted(completed + 1)
-    //         } else {
-    //             console.log('can not add progress', number);
-    //         }
-    //     }, 1000);
-    //     return () => clearInterval(progress);
-    // }, [completed]);
+    useEffect(() => {
+        const progress = setInterval(() => {
+            console.log(completed, 'isi completed');
+            if (completed < 14) {
+                setCompleted(completed + 1)
+            } else if (completed === 14 && selectedOption === '') {
+                if (number == question.length) {
+                    saveAnswerToStorage(number, '')
+                    finishSurvey()
+                } else {
+                    saveAnswerToStorage(number, '')
+                }
+            } else if (completed === 14 && selectedOption !== '') {
+                setSelectedOption('')
+                saveAnswerToStorage(number, '')
+            } else {
+                finishSurvey()
+                console.log('can not add progress', number);
+            }
+        }, 1000);
+        return () => clearInterval(progress);
+    }, [completed]);
 
     useEffect(() => {
         function handleResize() {
@@ -143,6 +194,18 @@ function Survey() {
         };
     }, []);
 
+    function saveAnswerToStorage(index, data) {
+        const saveAnswer = answeredQuestion?.splice((index - 1), 0, data);
+        setAnsweredQuestion([...answeredQuestion], saveAnswer)
+        setLocalStorage(answeredQuestion)
+    }
+
+    // const setTempAnswer = (data) => {
+    //     if (selectedOption) {
+    //         window.localStorage.setItem('tempAnswer', JSON.stringify(data));
+    //     }
+    // }
+
     const setLocalStorage = (savedData) => {
         if (answeredQuestion) {
             window.localStorage.setItem('answeredQuestion', JSON.stringify(savedData));
@@ -151,7 +214,6 @@ function Survey() {
 
     const getLocalStorage = () => {
         const answer = window.localStorage.getItem('answeredQuestion');
-        console.log('ini isi local storage', JSON.parse(answer));
         if (JSON.parse(answer) !== null) {
             setAnsweredQuestion(JSON.parse(answer))
         } else {
@@ -162,48 +224,37 @@ function Survey() {
     const nextQuestion = () => {
         if (number < question.length) {
             setNumber(number + 1)
+            setCompleted(1)
             if (typeof answeredQuestion[number - 1] !== "undefined") {
                 setLocalStorage(answeredQuestion)
+                setSelectedOption('')
             } else {
-                const saveAnswer = answeredQuestion?.splice((number - 1), 0, String(selectedOption));
-                setAnsweredQuestion([...answeredQuestion], saveAnswer)
-                setLocalStorage(answeredQuestion)
+                saveAnswerToStorage(number, String(selectedOption))
                 setSelectedOption('')
             }
-            console.log(answeredQuestion, 'updated answer');
         } else if (number == question.length) {
-            const saveAnswer = answeredQuestion?.splice((number - 1), 0, String(selectedOption));
-            setAnsweredQuestion([...answeredQuestion], saveAnswer)
-            setLocalStorage(answeredQuestion)
+            saveAnswerToStorage(number, String(selectedOption))
             setSelectedOption('')
+            finishSurvey()
         } else {
             console.log('can not next question', number);
         }
     }
 
-    function handleClick(event) {
-        event.preventDefault();
-        window.location.assign('/endsurvey');
+    function finishSurvey() {
+        navigate("/endsurvey");
     }
 
     return (
-        <div className='container'>
-            {/* <RenderTimerBar /> */}
+        <div className='containerSurvey'>
+            <RenderTimerBar />
             <RenderListQuestion />
 
             <div className='rowContainer'>
                 <button
-                    // onClick={nextQuestion}
-                    // onClick={handleClick}
-                    className="btnNext"
-                >
-                    Restart
-                </button>
-                <button
                     onClick={nextQuestion}
-                    // onClick={handleClick}
                     className="btnNext"
-                    disabled={selectedOption == "" && answeredQuestion[number - 1] == undefined ? true : false}
+                    disabled={selectedOption == "" && !answeredQuestion[number - 1] ? true : false}
                 >
                     Next
                 </button>

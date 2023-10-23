@@ -6,15 +6,11 @@ import EndSurvey from './pages/EndSurvey';
 function App() {
   return (
     <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Survey />}>
-        {/* <Route index element={<Home />} /> */}
+      <Routes>
+        <Route path="/" element={<Survey />} />
         <Route path="/endsurvey" element={<EndSurvey />} />
-        {/* <Route path="contact" element={<Contact />} /> */}
-        {/* <Route path="*" element={<NoPage />} /> */}
-      </Route>
-    </Routes>
-  </BrowserRouter>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -1,4 +1,4 @@
-.container {
+.containerSurvey {
     padding: 64px;
     margin: 0 auto;
 }
@@ -11,9 +11,14 @@ html body {
 .rowContainer {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-top: 64px;
+}
+.timerWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 }
 .cardQuestion {
    padding: 32px 16px 32px 16px;
@@ -27,11 +32,14 @@ html body {
     font-size: 24px;
     color: #eeaeca;
     font-weight: 600;
+    font-family: 'Poppins', sans-serif;
 }
 .txtQuestion {
     font-size: 22px;
     color: #7639bb;
     font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 12px;
 }
 .containerRadio {
     display: block;
@@ -40,6 +48,7 @@ html body {
     margin-bottom: 12px;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'Poppins', sans-serif;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -90,9 +99,11 @@ html body {
       background-color: #7639bb;
       border-radius: 8px;
       padding: 16px 16px 16px 16px;
-      width: 300px;
+      width: 25%;
       color: white;
       font-size: 18px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
       border-width: 0px;
       box-shadow: 10px 9px 25px -12px rgba(66,66,66,0.77);
       -webkit-box-shadow: 10px 9px 25px -12px rgba(66,66,66,0.77);
