@@ -1,0 +1,108 @@
+.container {
+    padding: 64px;
+    margin: 0 auto;
+}
+html body {
+    height: 100%;
+    background: rgb(238,174,202);
+    background: linear-gradient(0deg, rgba(238,174,202,1) 28%, rgba(188,148,233,1) 94%);
+    background-attachment: fixed;
+}
+.rowContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 64px;
+}
+.cardQuestion {
+   padding: 32px 16px 32px 16px;
+   background-color: white;
+   border-radius: 8px; 
+   box-shadow: 10px 9px 25px -12px rgba(66,66,66,0.77);
+   -webkit-box-shadow: 10px 9px 25px -12px rgba(66,66,66,0.77);
+   -moz-box-shadow: 10px 9px 25px -12px rgba(66,66,66,0.77);
+}
+.number {
+    font-size: 24px;
+    color: #eeaeca;
+    font-weight: 600;
+}
+.txtQuestion {
+    font-size: 22px;
+    color: #7639bb;
+    font-weight: 600;
+}
+.containerRadio {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #7639bb;
+  }
+  
+  /* Hide the browser's default radio button */
+  .containerRadio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #eee;
+    border-radius: 50%;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .containerRadio:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the radio button is checked, add a blue background */
+  .containerRadio input:checked ~ .checkmark {
+    background-color: #7639bb;
+  }
+  
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the indicator (dot/circle) when checked */
+  .containerRadio input:checked ~ .checkmark:after {
+    display: block;
+  }
+  .btnNext {
+      background-color: #7639bb;
+      border-radius: 8px;
+      padding: 16px 16px 16px 16px;
+      width: 300px;
+      color: white;
+      font-size: 18px;
+      border-width: 0px;
+      box-shadow: 10px 9px 25px -12px rgba(66,66,66,0.77);
+      -webkit-box-shadow: 10px 9px 25px -12px rgba(66,66,66,0.77);
+      -moz-box-shadow: 10px 9px 25px -12px rgba(66,66,66,0.77);
+  }
+  button[disabled=disabled], button:disabled {
+    opacity: 0.5;
+}
+  .progressBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+  }
