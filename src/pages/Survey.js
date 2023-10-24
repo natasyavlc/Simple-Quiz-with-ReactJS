@@ -33,11 +33,6 @@ function Survey() {
             : [];
     });
 
-    useEffect(() => {
-        console.log(window.localStorage.getItem('answeredQuestion'), 'cek answered');
-        console.log();
-    }, [])
-
     const handleOptionChange = (event) => {
         if (typeof answeredQuestion[number - 1] == "undefined") {
             setSelectedOption(event.target.value);
@@ -241,12 +236,6 @@ function Survey() {
     function finishSurvey() {
         navigate("/endsurvey");
     }
-
-    useEffect(() => {
-      console.log('isi selected', selectedOption);
-      console.log('isi answered', answeredQuestion);
-    }, [selectedOption, answeredQuestion])
-    
 
     return (
         <div className='containerSurvey'>
