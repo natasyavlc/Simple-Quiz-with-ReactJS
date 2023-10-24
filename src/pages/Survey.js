@@ -8,6 +8,7 @@ import './Survey.css'
 
 function Survey() {
     const navigate = useNavigate();
+    const questionTimer = 15
     // STATE
     const [number, setNumber] = useState(() => {
         const getAnswer = window.localStorage.getItem('answeredQuestion');
@@ -76,7 +77,7 @@ function Survey() {
             if ((index + 1) == number) {
                 return (
                     <Progress
-                        value={100 / 15 * (completed)}
+                        value={100 / questionTimer * (completed)}
                         color='purple'
                         variant="gradient"
                         className="activeBar"
@@ -142,7 +143,7 @@ function Survey() {
                 navigate('/endsurvey')
                 console.log('can not next', number);
             }
-        }, 15000);
+        }, questionTimer * 1000);
         return () => clearInterval(interval);
     }, [number]);
 
