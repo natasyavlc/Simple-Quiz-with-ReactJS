@@ -9,23 +9,23 @@ import './Survey.css'
 function Survey() {
     const navigate = useNavigate();
     // STATE
-    // const [number, setNumber] = useState(() => {
-    //     const getAnswer = window.localStorage.getItem('answeredQuestion');
-    //     const parsing = JSON.parse(getAnswer)
-    //     return getAnswer !== null
-    //         ? parsing.length + 1
-    //         : 1;
-    // });
-    const [number, setNumber] = useState(1)
+    const [number, setNumber] = useState(() => {
+        const getAnswer = window.localStorage.getItem('answeredQuestion');
+        const parsing = JSON.parse(getAnswer)
+        return getAnswer !== null
+            ? parsing.length + 1
+            : 1;
+    });
+    // const [number, setNumber] = useState(1)
     const [completed, setCompleted] = useState(1);
     const [width, setWidth] = useState(0);
-    // const [selectedOption, setSelectedOption] = useState(() => {
-    //     const getTempAnswer = window.localStorage.getItem('tempAnswer');
-    //     return getTempAnswer !== null
-    //         ? JSON.parse(getTempAnswer)
-    //         : '';
-    // });
-    const [selectedOption, setSelectedOption] = useState('');
+    const [selectedOption, setSelectedOption] = useState(() => {
+        const getTempAnswer = window.localStorage.getItem('tempAnswer');
+        return getTempAnswer !== null
+            ? JSON.parse(getTempAnswer)
+            : '';
+    });
+    // const [selectedOption, setSelectedOption] = useState('');
     const [answeredQuestion, setAnsweredQuestion] = useState(() => {
         const getAnswer = window.localStorage.getItem('answeredQuestion');
         return getAnswer !== null
@@ -41,15 +41,14 @@ function Survey() {
     const handleOptionChange = (event) => {
         if (typeof answeredQuestion[number - 1] == "undefined") {
             setSelectedOption(event.target.value);
-            // setTempAnswer(event.target.value)
         } else {
-            setSelectedOption(event.target.value)
-            // setTempAnswer(event.target.value)
+            setSelectedOption(event.target.value);
             if ((number - 1) !== -1) {
                 const newestAnswer = answeredQuestion[number - 1] = event.target.value;
                 setAnsweredQuestion([...answeredQuestion], newestAnswer)
             }
         }
+        setTempAnswer(event.target.value);
     };
 
     function RenderListQuestion() {
@@ -154,10 +153,9 @@ function Survey() {
 
     useEffect(() => {
         const progress = setInterval(() => {
-            console.log(completed, 'isi completed');
             if (completed < 14) {
                 setCompleted(completed + 1)
-            } else if (completed === 14 && selectedOption === '') {
+            } else if (completed === 14 && !selectedOption) {
                 if (number == question.length) {
                     saveAnswerToStorage(number, '')
                     finishSurvey()
@@ -200,11 +198,9 @@ function Survey() {
         setLocalStorage(answeredQuestion)
     }
 
-    // const setTempAnswer = (data) => {
-    //     if (selectedOption) {
-    //         window.localStorage.setItem('tempAnswer', JSON.stringify(data));
-    //     }
-    // }
+    function setTempAnswer(data) {
+        window.localStorage.setItem('tempAnswer', JSON.stringify(data));
+    }
 
     const setLocalStorage = (savedData) => {
         if (answeredQuestion) {
@@ -222,6 +218,7 @@ function Survey() {
     }
 
     const nextQuestion = () => {
+        window.localStorage.removeItem("tempAnswer");
         if (number < question.length) {
             setNumber(number + 1)
             setCompleted(1)
@@ -245,6 +242,12 @@ function Survey() {
         navigate("/endsurvey");
     }
 
+    useEffect(() => {
+      console.log('isi selected', selectedOption);
+      console.log('isi answered', answeredQuestion);
+    }, [selectedOption, answeredQuestion])
+    
+
     return (
         <div className='containerSurvey'>
             <RenderTimerBar />
@@ -254,7 +257,7 @@ function Survey() {
                 <button
                     onClick={nextQuestion}
                     className="btnNext"
-                    disabled={selectedOption == "" && !answeredQuestion[number - 1] ? true : false}
+                    disabled={!selectedOption && !answeredQuestion[number - 1] ? true : false}
                 >
                     Next
                 </button>

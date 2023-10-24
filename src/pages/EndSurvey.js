@@ -24,7 +24,6 @@ function EndSurvey() {
     navigate("/");
 }
 
-
   return (
     <div className="containerEnd">
       <h2 className="title">
