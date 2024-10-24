@@ -1,3 +1,4 @@
+/* eslint-disable react/style-prop-object */
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Progress } from "@material-tailwind/react";
@@ -55,7 +56,7 @@ function Survey() {
                     <p className="txtQuestion">{question[number - 1].question}</p>
                     {
                         question[number - 1].answer.map((option, index) => (
-                            <label class="containerRadio" key={index}>
+                            <label className="containerRadio" key={index}>
                                 <input
                                     type="radio"
                                     value={option}
@@ -63,7 +64,7 @@ function Survey() {
                                     onChange={handleOptionChange}
                                 />
                                 {option}
-                                <span class="checkmark"></span>
+                                <span className="checkmark"></span>
                             </label>
                         ))
                     }
@@ -74,13 +75,10 @@ function Survey() {
 
     function RenderTimerBar() {
         const progress = question.map((data, index) => {
-            if ((index + 1) == number) {
+            if ((index + 1) === number) {
                 return (
-                    <Progress
-                        value={100 / questionTimer * (completed)}
-                        color='purple'
-                        variant="gradient"
-                        className="activeBar"
+                    <div 
+                        className="w-full bg-gray-200 rounded-full h-4"
                         style={{
                             width: width / question.length,
                             height: 10,
@@ -88,8 +86,16 @@ function Survey() {
                             marginBottom: 32,
                             borderRadius: 10,
                             marginRight: 8
-                        }}
-                    />
+                        }}>
+                        <div 
+                            className="bg-blue-600 h-4 rounded-full" 
+                            style={{ 
+                                backgroundColor: 'purple', 
+                                height: 10,  
+                                width: 100 / questionTimer * (completed) 
+                            }} 
+                        />
+                    </div>
                 )
             } else if ((index + 1) < number) {
                 return (
