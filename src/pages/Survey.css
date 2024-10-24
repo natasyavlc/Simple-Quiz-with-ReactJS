@@ -68,7 +68,7 @@ html body {
   /* Create a custom radio button */
   .checkmark {
     position: absolute;
-    top: 0;
+    top: 32;
     left: 0;
     height: 18px;
     width: 18px;
