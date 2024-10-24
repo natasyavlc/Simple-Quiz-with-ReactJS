@@ -18,12 +18,17 @@
     font-size: 20px;
     color: bisque;
     font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+.lottieWrapper {
+    width: 40vw;
+    height: 40vh;
+    margin: 64px auto;
 }
 .btnRestart {
     background-color: #7639bb;
     border-radius: 8px;
     padding: 16px 16px 16px 16px;
-    width: 25%;
     color: white;
     font-size: 18px;
     font-family: 'Poppins', sans-serif;
@@ -32,4 +37,5 @@
     box-shadow: 10px 9px 25px -12px rgba(66,66,66,0.77);
     -webkit-box-shadow: 10px 9px 25px -12px rgba(66,66,66,0.77);
     -moz-box-shadow: 10px 9px 25px -12px rgba(66,66,66,0.77);
+    margin: 0 auto;
 }

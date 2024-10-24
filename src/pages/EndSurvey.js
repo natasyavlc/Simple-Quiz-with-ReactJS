@@ -22,7 +22,7 @@ function EndSurvey() {
   function restartSurvey() {
     localStorage.removeItem("answeredQuestion");
     navigate("/");
-}
+  }
 
   return (
     <div className="containerEnd">
@@ -33,7 +33,13 @@ function EndSurvey() {
         Thank you for your participation
       </p>
 
-      <Lottie options={defaultOptions} height={400} width={400} />
+      <div className="lottieWrapper">
+        <Lottie
+          options={defaultOptions}
+          height={'100%'}
+          width={'100%'} 
+        />
+      </div>
 
       <button
         onClick={restartSurvey}

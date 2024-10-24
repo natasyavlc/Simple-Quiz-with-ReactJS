@@ -77,23 +77,24 @@ function Survey() {
         const progress = question.map((data, index) => {
             if ((index + 1) === number) {
                 return (
-                    <div 
+                    <div
+                        key={index}
                         className="w-full bg-gray-200 rounded-full h-4"
                         style={{
-                            width: width / question.length,
-                            height: 10,
+                            width: `${(100 / question.length)}%`,
+                            height: '1.5vh', 
                             backgroundColor: 'white',
-                            marginBottom: 32,
-                            borderRadius: 10,
-                            marginRight: 8
+                            marginBottom: '2vh',
+                            borderRadius: '1.5vh',
+                            marginRight: '0.5vw'
                         }}>
-                        <div 
-                            className="bg-blue-600 h-4 rounded-full" 
-                            style={{ 
-                                backgroundColor: 'purple', 
-                                height: 10,  
-                                width: 100 / questionTimer * (completed) 
-                            }} 
+                        <div
+                            className="bg-blue-600 h-4 rounded-full"
+                            style={{
+                                backgroundColor: 'purple',
+                                height: '1.5vh',
+                                width: `${(100 / questionTimer) * completed}%` 
+                            }}
                         />
                     </div>
                 )

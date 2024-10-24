@@ -35,19 +35,21 @@ html body {
     font-family: 'Poppins', sans-serif;
 }
 .txtQuestion {
-    font-size: 22px;
+    font-size: clamp(1rem, 2vw, 2rem);
     color: #7639bb;
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
     margin-bottom: 12px;
 }
 .containerRadio {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     position: relative;
     padding-left: 35px;
     margin-bottom: 12px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: clamp(0.8rem, 1.5vw, 1.5rem); ;
     font-family: 'Poppins', sans-serif;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -101,7 +103,7 @@ html body {
       padding: 16px 16px 16px 16px;
       width: 25%;
       color: white;
-      font-size: 18px;
+      font-size: clamp(1rem, 2vw, 2rem);
       font-family: 'Poppins', sans-serif;
       font-weight: 600;
       border-width: 0px;
